@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Product</title>
+    <link href="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/css/app.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="main">
+            <main class="content">
+                <div class="container-fluid p-0">
+                    <h1 class="h3 mb-3">Delete Product</h1>
+
+                    <!-- Confirmation Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Confirm Deletion</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>Are you sure you want to delete the product <strong>{{ product.name }}</strong>?</p>
+                            <form action="/products/delete/{{ product.uid }}" method="POST">
+                                <!-- Use POST to send a delete request -->
+                                <input type="hidden" name="_method" value="DELETE"> <!-- To simulate DELETE HTTP method -->
+
+                                <div class="mb-3">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                    <a href="/products" class="btn btn-secondary">Cancel</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Include Feather Icons and AdminKit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/js/app.js"></script>
+</body>
+</html>

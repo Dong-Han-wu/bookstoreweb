@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Manage Products</title>
+        <link href="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/css/app.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
+        <style>
+            /* Adjust styling if needed */
+            .table-responsive {
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar (same as your original setup) -->
+        <nav id="sidebar" class="sidebar js-sidebar">
+            <div class="sidebar-content js-simplebar">
+                <a class="sidebar-brand" href="/">
+                    <span class="align-middle">Order System</span>
+                </a>
+                <ul class="sidebar-nav">
+                    <!-- Sidebar navigation items -->
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/">
+                            <i class="align-middle" data-feather="home"></i> <span class="align-middle">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item ">
+                        <a class="sidebar-link" href="/products">
+                            <i class="align-middle" data-feather="box"></i> <span class="align-middle">Manage Products</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="/users">
+                            <i class="align-middle" data-feather="user"></i> <span class="align-middle">Manage Users</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="/orders">
+                            <i class="align-middle" data-feather="shopping-cart"></i> <span class="align-middle">Manage Orders</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+    <!-- Main Content for Dashboard -->
+    <div class="main">
+        <div class="card">
+            <div class="card-header">
+                Users
+            </div>
+            <div class="card-body">
+                <h4>{{ user_count }}</h4>
+                <p>Total number of users</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                Orders
+            </div>
+            <div class="card-body">
+                <h4>{{ order_count }}</h4>
+                <p>Total number of orders</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                Products
+            </div>
+            <div class="card-body">
+                <h4>{{ product_count }}</h4>
+                <p>Total number of products</p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Order System. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Include Feather Icons and AdminKit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/js/app.js"></script>
+</body>
+</html>

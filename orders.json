@@ -1,0 +1,70 @@
+[
+    {
+        "orderNumber": 1001,
+        "products": [
+            "Product 1",
+            "Product 2"
+        ],
+        "totalPrice": 200.00,
+        "tax": 10.00,
+        "status": "Pending",
+        "owner": "User 1",
+        "timeCreated": "2024-11-11T14:00:00",
+        "address": {
+            "latLong": {
+                "lat": 40.7128,
+                "lng": -74.0060
+            },
+            "name": "John Doe",
+            "streetAddress": "123 Main St",
+            "city": "New York",
+            "state": "NY",
+            "postalCode": "10001"
+        }
+    },
+    {
+        "orderNumber": 1002,
+        "products": [
+            "Product 3"
+        ],
+        "totalPrice": 180.00,
+        "tax": 9.00,
+        "status": "Shipped",
+        "owner": "User 2",
+        "timeCreated": "2024-11-12T15:00:00",
+        "address": {
+            "latLong": {
+                "lat": 34.0522,
+                "lng": -118.2437
+            },
+            "name": "Jane Smith",
+            "streetAddress": "456 Elm St",
+            "city": "Los Angeles",
+            "state": "CA",
+            "postalCode": "90001"
+        }
+    },
+    {
+        "orderNumber": 1003,
+        "products": [
+            "Product 1",
+            "Product 3"
+        ],
+        "totalPrice": 280.00,
+        "tax": 14.00,
+        "status": "Delivered",
+        "owner": "User 3",
+        "timeCreated": "2024-11-13T16:00:00",
+        "address": {
+            "latLong": {
+                "lat": 41.8781,
+                "lng": -87.6298
+            },
+            "name": "Sam Johnson",
+            "streetAddress": "789 Oak St",
+            "city": "Chicago",
+            "state": "IL",
+            "postalCode": "60601"
+        }
+    }
+]

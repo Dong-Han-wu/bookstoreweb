@@ -1,0 +1,21 @@
+entrypoint = "app.py"  # 設置入口文件
+modules = ["python-3.11"]  # 指定 Python 版本
+
+[nix]
+channel = "stable-24_05"  # 指定 Nix 渠道
+
+[unitTest]
+language = "python3"  # 單元測試語言
+
+[gitHubImport]
+requiredFiles = [".replit", "replit.nix"]  # 需要的文件
+
+[deployment]
+run = ["python3", "app.py"]  # 確保這裡的路徑是正確的
+
+deploymentTarget = "cloudrun"  # 部署目標為 Cloud Run
+
+[[ports]]
+localPort = 5000  # 本地端口
+externalPort = 5000  # 外部端口
+exposeLocalhost = true  # 允許訪問 localhost

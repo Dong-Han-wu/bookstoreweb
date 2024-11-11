@@ -1,0 +1,50 @@
+[
+    {
+        "latLong": {
+            "lat": 40.7128,
+            "lng": -74.0060
+        },
+        "name": "John Doe",
+        "streetAddress": "123 Main St",
+        "streetAddress2": "Apt 4B",
+        "city": "New York",
+        "state": "NY",
+        "postalCode": "10001"
+    },
+    {
+        "latLong": {
+            "lat": 34.0522,
+            "lng": -118.2437
+        },
+        "name": "Jane Smith",
+        "streetAddress": "456 Elm St",
+        "streetAddress2": "",
+        "city": "Los Angeles",
+        "state": "CA",
+        "postalCode": "90001"
+    },
+    {
+        "latLong": {
+            "lat": 41.8781,
+            "lng": -87.6298
+        },
+        "name": "Sam Johnson",
+        "streetAddress": "789 Oak St",
+        "streetAddress2": "Suite 200",
+        "city": "Chicago",
+        "state": "IL",
+        "postalCode": "60601"
+    },
+    {
+        "latLong": {
+            "lat": 51.5074,
+            "lng": -0.1278
+        },
+        "name": "Alice Brown",
+        "streetAddress": "101 London Road",
+        "streetAddress2": "",
+        "city": "London",
+        "state": "",
+        "postalCode": "E1 6AN"
+    }
+]

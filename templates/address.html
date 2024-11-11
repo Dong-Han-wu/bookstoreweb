@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Addresses</title>
+</head>
+<body>
+    <h1>Manage Addresses</h1>
+
+    <!-- 表单：添加新地址 -->
+    <form action="/addresses" method="POST">
+        <label>Name: <input type="text" name="name" required></label><br>
+        <label>Street Address: <input type="text" name="streetAddress" required></label><br>
+        <label>Street Address 2: <input type="text" name="streetAddress2"></label><br>
+        <label>City: <input type="text" name="city" required></label><br>
+        <label>State: <input type="text" name="state" required></label><br>
+        <label>Postal Code: <input type="text" name="postalCode" required></label><br>
+        <label>Latitude: <input type="number" name="lat" step="0.000001" required></label><br>
+        <label>Longitude: <input type="number" name="lng" step="0.000001" required></label><br>
+        <button type="submit">Add Address</button>
+    </form>
+
+    <h2>Addresses List</h2>
+    <ul>
+        <!-- 显示所有地址 -->
+        {% for address in addresses %}
+            <li>
+                <strong>{{ address.name }}</strong><br>
+                {{ address.streetAddress }} {{ address.streetAddress2 }}<br>
+                {{ address.city }}, {{ address.state }} {{ address.postalCode }}<br>
+                Latitude: {{ address.lat }}, Longitude: {{ address.lng }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

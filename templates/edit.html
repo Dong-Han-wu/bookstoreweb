@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Product</title>
+    <link href="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/css/app.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar remains the same -->
+
+        <!-- Main content -->
+        <div class="main">
+            <main class="content">
+                <div class="container-fluid p-0">
+                    <h1 class="h3 mb-3">Edit Product</h1>
+
+                    <!-- Edit Product Form -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">Product Details</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form action="/products/update/{{ product.uid }}" method="POST" enctype="multipart/form-data" onsubmit="return confirm('Are you sure you want to save changes?');">
+                                        <div class="mb-3">
+                                            <label class="form-label">Product Name</label>
+                                            <input type="text" class="form-control" name="name" value="{{ product.name }}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Description</label>
+                                            <textarea class="form-control" name="description" rows="3">{{ product.description }}</textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Price</label>
+                                            <input type="number" class="form-control" name="price" value="{{ product.price }}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Sale Price</label>
+                                            <input type="number" class="form-control" name="sale_price" value="{{ product.sale_price }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Category</label>
+                                            <input type="text" class="form-control" name="category" value="{{ product.category }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Tags</label>
+                                            <input type="text" class="form-control" name="tags" value="{{ ', '.join(product.tags) }}" data-role="tagsinput">
+                                            <small class="form-text text-muted">Separate tags with commas.</small>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Owner</label>
+                                            <input type="text" class="form-control" name="owner" value="{{ product.owner }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Cover Image URL</label>
+                                            <input type="text" class="form-control" name="cover_image" value="{{ product.cover_image }}" onchange="previewImage('cover_image', 'coverPreview')">
+                                            <small class="form-text text-muted">Or upload an image below.</small>
+                                            <input type="file" class="form-control mt-2" name="cover_image_file" onchange="previewFile('cover_image_file', 'coverPreview')">
+                                            <img id="coverPreview" src="{{ product.cover_image }}" alt="Cover Image" style="max-width: 100px; margin-top: 10px;">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Additional Images (URLs)</label>
+                                            <input type="text" class="form-control" name="images" value="{{ ', '.join(product.images) }}" onchange="previewImage('images', 'imagesPreview')">
+                                            <small class="form-text text-muted">Separate image URLs with commas.</small>
+                                            <input type="file" multiple class="form-control mt-2" name="images_files" onchange="previewFiles(this.files, 'imagesPreview')">
+                                            <div id="imagesPreview" style="margin-top: 10px;">
+                                                {% for image in product.images %}
+                                                    <img src="{{ image }}" alt="Additional Image" style="max-width: 50px; margin-right: 5px;">
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                        <a href="/products" class="btn btn-secondary">Cancel</a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Include Feather Icons, AdminKit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/js/app.js"></script>
+    <script>
+        feather.replace(); // Initialize feather icons
+
+        // Preview an image from URL
+        function previewImage(inputId, previewId) {
+            const url = document.querySelector(`input[name="${inputId}"]`).value;
+            document.getElementById(previewId).src = url;
+        }
+
+        // Preview an image file
+        function previewFile(inputId, previewId) {
+            const file = document.querySelector(`input[name="${inputId}"]`).files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById(previewId).src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Preview multiple image files
+        function previewFiles(files, previewContainerId) {
+            const container = document.getElementById(previewContainerId);
+            container.innerHTML = ''; // Clear current previews
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.maxWidth = '50px';
+                    img.style.marginRight = '5px';
+                    container.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+    </script>
+</body>
+</html>
