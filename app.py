@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, redirect, url_for, flash, session ,send_file
 import bcrypt
 import pytz
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import csv
 import json
 import os
@@ -228,7 +228,7 @@ def register():
                 'email': email,
                 'password': hashed_password,
                 'display_name': display_name,
-                'created_time': datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).isoformat(),
+                'created_time': datetime.datetime.now().isoformat(),
             }
 
             users.append(user_data)
