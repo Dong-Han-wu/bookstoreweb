@@ -204,40 +204,47 @@ def orders_history():
 
         return render_template('orders_history.html', orders=user_orders)
 
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-        if request.method == 'POST':
-            email = request.form['email']
-            password = request.form['password']
-            display_name = request.form['display_name']
+            if request.method == 'POST':
+                email = request.form.get('email')
+                password = request.form.get('password')
+                display_name = request.form.get('display_name')
 
-            # 加载用户数据
-            users = load_data_from_json('users.json')
+                # 加载现有用户数据
+                users = load_data_from_json('users.json')
 
-            # 检查用户是否已经存在
-            if any(user['email'] == email for user in users):
-                flash('User already exists!', 'danger')
-                return redirect(url_for('register'))
+                # 检查用户是否已存在
+                if any(user['email'] == email for user in users):
+                    flash('User already exists!', 'danger')
+                    return redirect(url_for('register'))
 
-            # 对密码进行哈希处理
-            hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+                # 对密码进行哈希处理
+                hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
 
-            # 保存用户数据
-            user_data = {
-                'uid': str(uuid.uuid4()),
-                'email': email,
-                'password': hashed_password,
-                'display_name': display_name,
-                'created_time': datetime.now(timezone(timedelta(hours=8))).isoformat(),
-            }
+                # 获取当前时间（台北时区）
+                tz = pytz.timezone('Asia/Taipei')
+                current_time = datetime.now(tz).isoformat()
 
-            users.append(user_data)
-            save_data_to_json('users.json', users)
+                # 创建新用户数据
+                user_data = {
+                    'uid': str(uuid.uuid4()),
+                    'email': email,
+                    'password': hashed_password,
+                    'display_name': display_name,
+                    'created_time': current_time,
+                }
 
-            flash('Registration successful! You can now log in.', 'success')
-            return redirect(url_for('login'))
+                # 添加新用户数据并保存
+                users.append(user_data)
+                save_data_to_json('users.json', users)
 
-        return render_template('register.html')
+                flash('Registration successful! You can now log in.', 'success')
+                return redirect(url_for('login'))
+
+            # 请求为 GET 时，返回注册页面
+            return render_template('register.html')
     
 @app.route('/login', methods=['GET', 'POST'])
 def login():
