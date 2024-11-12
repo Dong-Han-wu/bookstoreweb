@@ -79,10 +79,6 @@
                                             <input type="text" class="form-control" name="status">
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Order Number</label>
-                                            <input type="number" class="form-control" name="orderNumber" required>
-                                        </div>
-                                        <div class="mb-3">
                                             <label class="form-label">Owner</label>
                                             <input type="text" class="form-control" name="owner">
                                         </div>
@@ -125,35 +121,39 @@
                     <div class="card">
                         <div class="card-header">
                             <h5 class="card-title">Orders List</h5>
+                            <a href="{{ url_for('download_orders_xlsx') }}" class="btn btn-primary">Download Orders as xlsx</a>
+                            <a href="{{ url_for('download_orders_csv') }}" class="btn btn-primary">Download orders as csv</a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="ordersTable" class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <th>Order Number</th>
-                                            <th>Status</th>
+                                            <th>Email</th>
+                                            <th>Product Names</th>
+                                            <th>Quantity</th>
                                             <th>Total Price</th>
-                                            <th>Owner</th>
-                                            <th>City</th>
-                                            <th>State</th>
-                                            <th>Postal Code</th>
+                                            <th>Status</th>
+                                            <th>Order Time</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for order in orders %}
                                             <tr>
-                                                <td>{{ order.orderNumber }}</td>
-                                                <td>{{ order.status }}</td>
-                                                <td>{{ order.totalPrice }}</td>
-                                                <td>{{ order.owner }}</td>
-                                                <td>{{ order.city }}</td>
-                                                <td>{{ order.state }}</td>
-                                                <td>{{ order.postalCode }}</td>
+                                                <td>{{ order['shipping']['email'] }}</td>
+                                                <td>{{ order['product_details'] }}</td>
                                                 <td>
-                                                    <a href="/orders/edit/{{ order.id }}" class="btn btn-sm btn-primary">Edit</a>
-                                                    <a href="/orders/delete/{{ order.id }}" class="btn btn-sm btn-danger">Delete</a>
+                                                    {% for product in order['products'] %}
+                                                        {{ product['quantity'] }}<br>
+                                                    {% endfor %}
+                                                </td>
+                                                <td>{{ order['totalPrice'] }}</td>
+                                                <td>{{ order['status'] }}</td>
+                                                <td>{{ order['formattedTimeCreated'] }}</td>
+                                                <td>
+                                                    <a href="/orders/edit/{{ order['orderNumber'] }}" class="btn btn-sm btn-primary">Edit</a>
+                                                    <a href="/orders/delete/{{ order['orderNumber'] }}" class="btn btn-sm btn-danger">Delete</a>
                                                 </td>
                                             </tr>
                                         {% endfor %}
@@ -162,10 +162,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </main>
-        </div>
-    </div>
+
 
     <!-- Include Feather Icons, AdminKit, and DataTables JS -->
     <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>

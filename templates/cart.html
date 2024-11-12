@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>購物車</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* 自訂 Toggler 顏色 */
+        .navbar-toggler {
+            border-color: #343a40; /* 更深色邊框 */
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%2834, 34, 34, 0.7%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); /* 更深的圖標顏色 */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar with Toggler -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+
+            <!-- Toggler button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="切換導航">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('products_custom') }}">產品</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('cart') }}">購物車</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <h2 class="mb-4">購物車</h2>
+        
+        {% if cart_products %}
+        <!-- Shopping Cart Table -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">您的購物車</h4>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">產品</th>
+                            <th scope="col">描述</th>
+                            <th scope="col">價格</th>
+                            <th scope="col">數量</th>
+                            <th scope="col">移除</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in cart_products %}
+                        <tr>
+                            <td>
+                                <img src="{{ product.coverImage if product.coverImage else url_for('static', filename='images/default_image.jpg') }}" alt="{{ product.name }}" class="img-fluid" style="max-width: 60px;">
+                                <span>{{ product.name }}</span>
+                            </td>
+                            <td>{{ product.description }}</td>
+                            <td>
+                                {% if product.salePrice and product.salePrice < product.price %}
+                                    <span class="text-danger">${{ product.salePrice }}</span><br>
+                                    <del>${{ product.price }}</del>
+                                {% elif product.salePrice %}
+                                    <span class="text-success">${{ product.salePrice }}</span>
+                                {% else %}
+                                    ${{ product.price }}
+                                {% endif %}
+                            </td>
+                            <td>{{ product.quantity }}</td>
+                            <td>
+                                <form method="POST" action="{{ url_for('remove_from_cart', product_uid=product.uid) }}">
+                                    <button type="submit" class="btn btn-danger btn-sm">移除</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <!-- Cart Summary -->
+                <div class="d-flex justify-content-between">
+                    <h5>總計: ${{ total_price }}</h5>
+                    <a href="{{ url_for('checkout') }}" class="btn btn-success btn-sm">前往結帳</a>
+                </div>
+            </div>
+            <!-- Continue Ordering Button -->
+            <a href="{{ url_for('products_custom') }}" class="btn btn-secondary mt-3">繼續購物</a>
+        </div>
+        {% else %}
+            <p>您的購物車是空的。</p>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

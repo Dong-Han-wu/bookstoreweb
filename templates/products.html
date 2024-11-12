@@ -1,204 +1,234 @@
-    <!DOCTYPE html>
-    <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Manage Products</title>
-                <link href="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/css/app.css" rel="stylesheet">
-                <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-                <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
-                <style>
-                    /* Adjust styling if needed */
-                    .table-responsive {
-                        margin-top: 20px;
-                    }
-                </style>
-            </head>
-            <body>
-
-            <div class="wrapper">
-                <!-- Sidebar (same as your original setup) -->
-                <nav id="sidebar" class="sidebar js-sidebar">
-                    <div class="sidebar-content js-simplebar">
-                        <a class="sidebar-brand" href="/">
-                            <span class="align-middle">Order System</span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/css/app.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <style>
+        /* Adjust styling if needed */
+        .table-responsive {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar (same as your original setup) -->
+        <nav id="sidebar" class="sidebar js-sidebar">
+            <div class="sidebar-content js-simplebar">
+                <a class="sidebar-brand" href="/">
+                    <span class="align-middle">Order System</span>
+                </a>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="/">
+                            <i class="align-middle" data-feather="home"></i> <span class="align-middle">Dashboard</span>
                         </a>
-                        <ul class="sidebar-nav">
-                            <!-- Sidebar navigation items -->
-                            <li class="sidebar-item ">
-                                <a class="sidebar-link" href="/">
-                                    <i class="align-middle" data-feather="home"></i> <span class="align-middle">Dashboard</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item active ">
-                                <a class="sidebar-link" href="/products">
-                                    <i class="align-middle" data-feather="box"></i> <span class="align-middle">Manage Products</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" href="/users">
-                                    <i class="align-middle" data-feather="user"></i> <span class="align-middle">Manage Users</span>
-                                </a>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" href="/orders">
-                                    <i class="align-middle" data-feather="shopping-cart"></i> <span class="align-middle">Manage Orders</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
-            <div class="main">
-                <main class="content">
-                    <div class="container-fluid p-0">
-                        <h1 class="h3 mb-3">Manage Products</h1>
-
-                        <!-- Add Product Form -->
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Add New Product</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <form action="/products" method="POST">
-                                            <div class="mb-3">
-                                                <label for="productName" class="form-label">Product Name</label>
-                                                <input type="text" class="form-control" id="productName" name="name" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="productCategory" class="form-label">Category</label>
-                                                <input type="text" class="form-control" id="productCategory" name="category" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="productPrice" class="form-label">Price</label>
-                                                <input type="number" class="form-control" id="productPrice" name="price" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="productSalePrice" class="form-label">Sale Price</label>
-                                                <input type="number" class="form-control" id="productSalePrice" name="salePrice" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="productDescription" class="form-label">Description</label>
-                                                <textarea class="form-control" id="productDescription" name="description" rows="3" required></textarea>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="productOwner" class="form-label">Owner</label>
-                                                <input type="text" class="form-control" id="productOwner" name="owner" required>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="productTags" class="form-label">Tags (comma separated)</label>
-                                                <input type="text" class="form-control" id="productTags" name="tags">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="productCoverImage" class="form-label">Cover Image URL</label>
-                                                <input type="url" class="form-control" id="productCoverImage" name="cover_image">
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Add Product</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Products Table -->
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="card-title">Products List</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    {% if products %}
-                                    <!-- Category Filter -->
-                                    <div class="mb-3">
-                                        <label for="categoryFilter" class="form-label">Filter by Category</label>
-                                        <select id="categoryFilter" class="form-control" onchange="filterProductsByCategory()">
-                                            <option value="">All Categories</option>
-                                            {% for category in categories %}
-                                                <option value="{{ category }}">{{ category }}</option>
-                                            {% endfor %}
-                                        </select>
-                                    </div>
-
-                                    <table id="productsTable" class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>Image</th>
-                                                <th>Product Name</th>
-                                                <th>Category</th>
-                                                <th>Price</th>
-                                                <th>Sale Price</th>
-                                                <th>Description</th>
-                                                <th>Owner</th>
-                                                <th>Tags</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for product in products %}
-                                                <tr>
-                                                    <td>
-                                                        <img src="{{ product.coverImage }}" alt="Product Image" style="max-width: 50px; max-height: 50px;">
-                                                    </td>
-                                                    <td>{{ product.name }}</td>
-                                                    <td>{{ product.category }}</td>
-                                                    <td>${{ product.price }}</td>
-                                                    <td>${{ product.salePrice }}</td>
-                                                    <td>{{ product.description }}</td>
-                                                    <td>{{ product.owner }}</td>
-                                                    <td>{{ product.tags | join(", ") }}</td>
-                                                    <td>
-                                                        <a href="/products/edit/{{ product.uid }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="Edit Product" style="padding: 5px 15px;">Edit</a>
-
-                                                        <a href="/products/delete/{{ product.uid }}" class="btn btn-sm btn-danger" data-toggle="tooltip" title="Delete Product"
-                                                           onclick="return confirm('Are you sure you want to delete this product?');" style="padding: 5px 15px;">
-                                                           Delete
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                    {% else %}
-                                        <p class="text-muted">No products available.</p>
-                                        <a href="/products/add" class="btn btn-primary">Add New Product</a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </main>
+                    </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/products">
+                            <i class="align-middle" data-feather="box"></i> <span class="align-middle">Manage Products</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="/users">
+                            <i class="align-middle" data-feather="user"></i> <span class="align-middle">Manage Users</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="/orders">
+                            <i class="align-middle" data-feather="shopping-cart"></i> <span class="align-middle">Manage Orders</span>
+                        </a>
+                    </li>
+                </ul>
             </div>
+        </nav>
+
+        <div class="main">
+            <main class="content">
+                <div class="container-fluid p-0">
+                    <h1 class="h3 mb-3">Manage Products</h1>
+
+                    <!-- Add Product Form -->
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">Add New Product</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form action="/products" method="POST">
+                                        <div class="mb-3">
+                                            <label for="productName" class="form-label">Product Name</label>
+                                            <input type="text" class="form-control" id="productName" name="name" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="productCategory" class="form-label">Category</label>
+                                            <input type="text" class="form-control" id="productCategory" name="category" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="productPrice" class="form-label">Price</label>
+                                            <input type="number" class="form-control" id="productPrice" name="price" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="productSalePrice" class="form-label">Sale Price</label>
+                                            <input type="number" class="form-control" id="productSalePrice" name="salePrice" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="productDescription" class="form-label">Description</label>
+                                            <textarea class="form-control" id="productDescription" name="description" rows="3" required></textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="productOwner" class="form-label">Owner</label>
+                                            <input type="text" class="form-control" id="productOwner" name="owner" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="productTags" class="form-label">Tags (comma separated)</label>
+                                            <input type="text" class="form-control" id="productTags" name="tags">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="productCoverImage" class="form-label">Cover Image URL</label>
+                                            <input type="url" class="form-control" id="productCoverImage" name="cover_image">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Add Product</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Products Table -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Products List</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                {% if products %}
+                                <!-- Category Filter -->
+                                <div class="mb-3">
+                                    <label for="categoryFilter" class="form-label">Filter by Category</label>
+                                    <select id="categoryFilter" class="form-control" onchange="filterProductsByCategory()">
+                                        <option value="">All Categories</option>
+                                        {% for category in categories %}
+                                            <option value="{{ category }}">{{ category }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <table id="productsTable" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Product Name</th>
+                                            <th>Category</th>
+                                            <th>Price</th>
+                                            <th>Sale Price</th>
+                                            <th>Description</th>
+                                            <th>Owner</th>
+                                            <th>Tags</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for product in products %}
+                                            <tr>
+                                                <td><img src="{{ product.coverImage }}" alt="Product Image" style="max-width: 50px; max-height: 50px;"></td>
+                                                <td>{{ product.name }}</td>
+                                                <td>{{ product.category }}</td>
+                                                <td>${{ product.price }}</td>
+                                                <td>${{ product.salePrice }}</td>
+                                                <td>{{ product.description }}</td>
+                                                <td>{{ product.owner }}</td>
+                                                <td>{{ product.tags | join(", ") }}</td>
+                                                <td>
+                                                    <a href="/products/edit/{{ product.uid }}" class="btn btn-sm btn-primary" title="Edit Product">Edit</a>
+                                                    <a href="/products/delete/{{ product.uid }}" class="btn btn-sm btn-danger" title="Delete Product" onclick="return confirm('Are you sure you want to delete this product?');">Delete</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% else %}
+                                    <p class="text-muted">No products available.</p>
+                                    <a href="/products/add" class="btn btn-primary">Add New Product</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
         </div>
+    </div>
 
-        <!-- Include Feather Icons, AdminKit, and DataTables JS -->
-        <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/js/app.js"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <!-- Include Feather Icons, AdminKit, and DataTables JS -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/js/app.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
-        <script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
             feather.replace(); // Initialize feather icons
 
-            $(document).ready(function() {
-                // Initialize DataTable with settings
+            // Initialize DataTable if not already initialized
+            if (!$.fn.dataTable.isDataTable('#productsTable')) {
+                // Initialize DataTable
                 $('#productsTable').DataTable({
                     "pageLength": 10,
                     "lengthMenu": [10, 25, 50, 100],
-                    "searching": true, // Enable search box
-                    "ordering": true,   // Enable column sorting
-                    "order": [[1, 'asc']], // Default sorting by Product Name
+                    "searching": true,
+                    "ordering": true,
+                    "order": [[1, 'asc']]
                 });
+            }
 
-                // Initialize tooltips
-                $('[data-toggle="tooltip"]').tooltip();
+            // Initialize tooltips for actions
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
+        function filterProductsByCategory() {
+            var category = document.getElementById('categoryFilter').value;
+            $('#productsTable').DataTable().column(2).search(category).draw(); // Filter by Category column
+        }
+
+        // 銷毀並重新渲染表格資料
+        function reloadTable(data) {
+            var table = $('#productsTable').DataTable();
+
+            // 保存当前分页状态
+            var page = table.page();
+            var pageLength = table.page.len();
+
+            // 清空表格现有的资料
+            table.clear();
+
+            // 插入新资料行
+            data.forEach(function(product) {
+                table.row.add([
+                    '<img src="' + product.coverImage + '" alt="Product Image" style="max-width: 50px; max-height: 50px;">',
+                    product.name,
+                    product.category,
+                    '$' + product.price,
+                    '$' + product.salePrice,
+                    product.description,
+                    product.owner,
+                    product.tags.join(', '),
+                    '<a href="/products/edit/' + product.uid + '" class="btn btn-sm btn-primary">Edit</a>' +
+                    '<a href="/products/delete/' + product.uid + '" class="btn btn-sm btn-danger" onclick="return confirm(\'Are you sure?\');">Delete</a>'
+                ]);
             });
 
-            // Filter products by category
-            function filterProductsByCategory() {
-                var category = document.getElementById('categoryFilter').value;
-                $('#productsTable').DataTable().column(2).search(category).draw();  // Filter by Category column
-            }
-        </script>
-    </body>
-    </html>
+            // 更新表格数据
+            table.draw();
+
+            // 恢复分页状态
+            table.page(page).draw('page');
+        }
+    </script>
+
+
+</body>
+</html>

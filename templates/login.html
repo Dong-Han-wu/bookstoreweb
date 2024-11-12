@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-5">登入</h2>
+
+        <!-- 顯示成功/錯誤訊息 -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="alert alert-{{ messages[0][0] }}">
+                    {{ messages[0][1] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <div class="form-outline mb-4">
+                <input type="email" id="email" name="email" class="form-control" required />
+                <label class="form-label" for="email">電子郵件</label>
+            </div>
+
+            <div class="form-outline mb-4">
+                <input type="password" id="password" name="password" class="form-control" required />
+                <label class="form-label" for="password">密碼</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">登入</button>
+        </form>
+        <p class="mt-4">還沒有帳號？ <a href="{{ url_for('register') }}">點此註冊</a></p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.js"></script>
+</body>
+</html>

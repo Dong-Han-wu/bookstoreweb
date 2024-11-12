@@ -1,97 +1,203 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Manage Products</title>
-        <link href="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/css/app.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
-        <style>
-            /* Adjust styling if needed */
-            .table-responsive {
-                margin-top: 20px;
-            }
-        </style>
-    </head>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>訓練中心書報組訂書系統</title>
+    <link href="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/css/app.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
+    <style>
+        /* 去掉懸停時的顏色變化 */
+        .navbar-nav .nav-link {
+            color: #007bff; /* 設置常規鏈接顏色（例如藍色） */
+        }
+
+        /* 當鼠標懸停時，保持顏色不變 */
+        .navbar-nav .nav-link:hover {
+            color: #007bff !important; /* 保持同樣的顏色 */
+            background-color: transparent; /* 防止背景顏色改變 */
+        }
+
+        /* 自訂 Toggler 顏色 */
+        .navbar-toggler {
+            border-color: #343a40; /* 更深色邊框 */
+        }
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%2834, 34, 34, 0.7%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"); /* 更深的圖標顏色 */
+        }
+
+        /* 登入按鈕自訂樣式 */
+        .navbar-nav .nav-item .login-btn {
+            color: white;
+            background-color: #007bff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .navbar-nav .nav-item .login-btn:hover {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        /* 登出按鈕自訂樣式 */
+        .navbar-nav .nav-item .logout-btn {
+            color: white;
+            background-color: #dc3545;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .navbar-nav .nav-item .logout-btn:hover {
+            background-color: #c82333;
+            color: white;
+        }
+
+        /* 使登入/登出按鈕對齊右側 */
+        .navbar-nav.ml-auto {
+            margin-left: auto;
+        }
+
+        /* 圖片樣式 */
+        .centered-image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white; /* 設置背景為白色 */
+            padding: 20px;
+            height: 100vh; /* 全螢幕高度 */
+        }
+
+        .centered-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
 <body>
 
-    <div class="wrapper">
-        <!-- Sidebar (same as your original setup) -->
-        <nav id="sidebar" class="sidebar js-sidebar">
-            <div class="sidebar-content js-simplebar">
-                <a class="sidebar-brand" href="/">
-                    <span class="align-middle">Order System</span>
-                </a>
-                <ul class="sidebar-nav">
-                    <!-- Sidebar navigation items -->
-                    <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/">
-                            <i class="align-middle" data-feather="home"></i> <span class="align-middle">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item ">
-                        <a class="sidebar-link" href="/products">
-                            <i class="align-middle" data-feather="box"></i> <span class="align-middle">Manage Products</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="/users">
-                            <i class="align-middle" data-feather="user"></i> <span class="align-middle">Manage Users</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="/orders">
-                            <i class="align-middle" data-feather="shopping-cart"></i> <span class="align-middle">Manage Orders</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-    <!-- Main Content for Dashboard -->
-    <div class="main">
-        <div class="card">
-            <div class="card-header">
-                Users
-            </div>
-            <div class="card-body">
-                <h4>{{ user_count }}</h4>
-                <p>Total number of users</p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                Orders
-            </div>
-            <div class="card-body">
-                <h4>{{ order_count }}</h4>
-                <p>Total number of orders</p>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                Products
-            </div>
-            <div class="card-body">
-                <h4>{{ product_count }}</h4>
-                <p>Total number of products</p>
-            </div>
+<!-- 導航欄與 Toggler -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <!-- Toggler 按鈕 -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                {% if is_logged_in %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('products_custom') }}">產品</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('cart') }}">購物車</a>
+                </li>
+                {% endif %}
+            </ul>
+            <!-- 登入/登出按鈕在右側 -->
+            {% if not is_logged_in %}
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link login-btn" href="{{ url_for('login') }}">登入</a>
+                </li>
+            </ul>
+            {% else %}
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link logout-btn" href="{{ url_for('logout') }}">登出</a>
+                </li>
+            </ul>
+            {% endif %}
         </div>
     </div>
+</nav>
+
+<!-- 置中圖片區域 -->
+<div class="centered-image-container">
+    <img src="https://www.fttt.org.tw/wp-content/uploads/2024/07/%E8%87%BA%E7%81%A3%E7%A6%8F%E9%9F%B3%E5%B7%A5%E4%BD%9C%E5%85%A8%E6%99%82%E9%96%93%E8%A8%93%E7%B7%B4_%E6%96%B0%E7%89%88_%E9%BB%91.png" alt="訓練中心書報組訂書系統" class="centered-image">
+</div>
+
+<!-- 主要內容 -->
+<div class="wrapper">
+    {% if is_logged_in %}
+    <!-- 側邊欄 (與原設定相同) -->
+    <nav id="sidebar" class="sidebar js-sidebar">
+        <div class="sidebar-content js-simplebar">
+            <a class="sidebar-brand" href="/">
+                <span class="align-middle">訂單系統</span>
+            </a>
+            <ul class="sidebar-nav">
+                <!-- 側邊欄導航項目 -->
+                <li class="sidebar-item active">
+                    <a class="sidebar-link" href="/">
+                        <i class="align-middle" data-feather="home"></i> <span class="align-middle">儀表板</span>
+                    </a>
+                </li>
+                <li class="sidebar-item ">
+                    <a class="sidebar-link" href="/products">
+                        <i class="align-middle" data-feather="box"></i> <span class="align-middle">管理產品</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/users">
+                        <i class="align-middle" data-feather="user"></i> <span class="align-middle">管理用戶</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/orders">
+                        <i class="align-middle" data-feather="shopping-cart"></i> <span class="align-middle">管理訂單</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    {% endif %}
+<!-- 儀表板主要內容 -->
+<div class="main">
+    <div class="card">
+        <div class="card-header">
+            用戶
+        </div>
+        <div class="card-body">
+            <h4>{{ user_count }}</h4>
+            <p>用戶總數</p>
+        </div>
     </div>
+    <div class="card">
+        <div class="card-header">
+            訂單
+        </div>
+        <div class="card-body">
+            <h4>{{ order_count }}</h4>
+            <p>訂單總數</p>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            產品
+        </div>
+        <div class="card-body">
+            <h4>{{ product_count }}</h4>
+            <p>產品總數</p>
+        </div>
+    </div>
+</div>
+</div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 Order System. All Rights Reserved.</p>
-    </footer>
+<!-- 頁尾 -->
+<footer>
+    <p>&copy; 2024 訂單系統. 版權所有。</p>
+</footer>
 
-    <!-- Include Feather Icons and AdminKit JS -->
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
-    <script>
-        // Initialize Feather Icons
-        feather.replace();
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/js/app.js"></script>
+<!-- 包含 Feather Icons 和 AdminKit JS -->
+<script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
+<script>
+    // 初始化 Feather 圖標
+    feather.replace();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/js/app.js"></script>
 </body>
 </html>

@@ -1,16 +1,15 @@
 [
     {
+        "email": "ftttbokman2@gmail.com",
+        "password": "scrypt:32768:8:1$N3lXIxpFkCP0geOl$fb0e5c57bf9b7efe74476aa0043bd324e7c2df95f8f1bbd32c77939559d4bec9db4fa9bdc24fb3b6a8fa7bd7e400e1f9d4a7a84fb530e7014c08bdd0ba22e15e",
+        "display_name": "23S011",
+        "created_time": "2024-11-11T14:20:25.136656"
+    },
+    {
+        "uid": "9b8a7768-6228-4d67-9e10-7a224baf66ad",
         "email": "samps984508@gmail.com",
-        "display_name": "samps",
-        "photo_url": "",
-        "phone_number": "0963666666",
-        "student_id": "23S011",
-        "ftt_auth": "admin",
-        "group": "第一生活組",
-        "title": "測試",
-        "created_time": "2024-11-11T01:16:16.304858",
-        "last_active_time": "2024-11-11T01:16:16.304865",
-        "blockedUsers": [],
-        "addresses": []
+        "password": "$2b$12$fwIM6w/hJxzX/.9UMJoUtutz8Qar2jOodlZXlaXqZdh/SGTmm9O4.",
+        "display_name": "23S011",
+        "created_time": "2024-11-12T01:33:55.425109"
     }
 ]

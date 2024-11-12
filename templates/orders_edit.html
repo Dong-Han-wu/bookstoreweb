@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Order</title>
+    <link href="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/css/app.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Sidebar (AdminKit style) -->
+        <nav id="sidebar" class="sidebar js-sidebar">
+            <div class="sidebar-content js-simplebar">
+                <a class="sidebar-brand" href="/">
+                    <span class="align-middle">Order System</span>
+                </a>
+                <ul class="sidebar-nav">
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="/">
+                            <i class="align-middle" data-feather="home"></i> <span class="align-middle">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="/products">
+                            <i class="align-middle" data-feather="box"></i> <span class="align-middle">Manage Products</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="/users">
+                            <i class="align-middle" data-feather="user"></i> <span class="align-middle">Manage Users</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item active">
+                        <a class="sidebar-link" href="/orders">
+                            <i class="align-middle" data-feather="shopping-cart"></i> <span class="align-middle">Manage Orders</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main content -->
+        <div class="main">
+            <main class="content">
+                <div class="container-fluid p-0">
+                    <h1 class="h3 mb-3">Edit Order</h1>
+
+                    <!-- Edit Order Form -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">Edit Order Details</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form action="/orders/edit/{{ order.orderNumber }}" method="POST">
+                                        <!-- 产品列表 -->
+                                        <h5>Products</h5>
+                                        {% for product in order.products %}
+                                        <div class="mb-3">
+                                            <label class="form-label">Product Name</label>
+                                            <input type="text" class="form-control" name="products[{{ loop.index0 }}][name]" value="{{ product.name }}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Price</label>
+                                            <input type="number" class="form-control" name="products[{{ loop.index0 }}][price]" value="{{ product.price }}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Sale Price</label>
+                                            <input type="number" class="form-control" name="products[{{ loop.index0 }}][salePrice]" value="{{ product.salePrice }}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Quantity</label>
+                                            <input type="number" class="form-control" name="products[{{ loop.index0 }}][quantity]" value="{{ product.quantity }}" required>
+                                        </div>
+                                        <hr>
+                                        {% endfor %}
+
+                                        <!-- 订单总价 -->
+                                        <div class="mb-3">
+                                            <label class="form-label">Total Price</label>
+                                            <input type="number" class="form-control" name="totalPrice" value="{{ order.totalPrice }}" required>
+                                        </div>
+
+                                        <!-- 订单状态 -->
+                                        <div class="mb-3">
+                                            <label class="form-label">Status</label>
+                                            <input type="text" class="form-control" name="status" value="{{ order.status }}">
+                                        </div>
+
+                                        <!-- 拥有者 -->
+                                        <div class="mb-3">
+                                            <label class="form-label">Owner</label>
+                                            <input type="text" class="form-control" name="owner" value="{{ order.owner }}">
+                                        </div>
+
+                                        <!-- Shipping Address Section -->
+                                        <h5>Shipping Address</h5>
+                                        <div class="mb-3">
+                                            <label class="form-label">Full Name</label>
+                                            <input type="text" class="form-control" name="shipping[fullName]" value="{{ order.shipping.fullName }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" class="form-control" name="shipping[email]" value="{{ order.shipping.email }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Address</label>
+                                            <input type="text" class="form-control" name="shipping[address]" value="{{ order.shipping.address }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">City</label>
+                                            <input type="text" class="form-control" name="shipping[city]" value="{{ order.shipping.city }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Postal Code</label>
+                                            <input type="text" class="form-control" name="shipping[zipcode]" value="{{ order.shipping.zipcode }}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Country</label>
+                                            <input type="text" class="form-control" name="shipping[country]" value="{{ order.shipping.country }}">
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary">Update Order</button>
+                                        <a href="/orders" class="btn btn-secondary">Cancel</a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Include Feather Icons and AdminKit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/js/app.js"></script>
+    <script>
+        feather.replace(); // Initialize feather icons
+    </script>
+</body>
+</html>

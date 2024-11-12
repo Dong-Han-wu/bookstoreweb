@@ -1,16 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Product</title>
-    <link href="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/css/app.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
-</head>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Manage Products</title>
+            <link href="https://cdn.jsdelivr.net/npm/@adminkit/core@3.4.0/dist/css/app.css" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+            <style>
+                /* Adjust styling if needed */
+                .table-responsive {
+                    margin-top: 20px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="wrapper">
+                <!-- Sidebar (same as your original setup) -->
+                <nav id="sidebar" class="sidebar js-sidebar">
+                    <div class="sidebar-content js-simplebar">
+                        <a class="sidebar-brand" href="/">
+                            <span class="align-middle">Order System</span>
+                        </a>
+                        <ul class="sidebar-nav">
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="/">
+                                    <i class="align-middle" data-feather="home"></i> <span class="align-middle">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item active">
+                                <a class="sidebar-link" href="/products">
+                                    <i class="align-middle" data-feather="box"></i> <span class="align-middle">Manage Products</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="/users">
+                                    <i class="align-middle" data-feather="user"></i> <span class="align-middle">Manage Users</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="/orders">
+                                    <i class="align-middle" data-feather="shopping-cart"></i> <span class="align-middle">Manage Orders</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
 
-<body>
-    <div class="wrapper">
-        <!-- Sidebar remains the same -->
+                <div class="main">
+                    <main class="content">
+                        <div class="container-fluid p-0">
+                            <h1 class="h3 mb-3">Manage Products</h1>
 
         <!-- Main content -->
         <div class="main">
@@ -58,10 +97,10 @@
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Cover Image URL</label>
-                                            <input type="text" class="form-control" name="cover_image" value="{{ product.cover_image }}" onchange="previewImage('cover_image', 'coverPreview')">
+                                            <input type="text" class="form-control" name="cover_image" value="{{ product.cover_image }}" onchange="previewImage('coverImage', 'coverPreview')">
                                             <small class="form-text text-muted">Or upload an image below.</small>
                                             <input type="file" class="form-control mt-2" name="cover_image_file" onchange="previewFile('cover_image_file', 'coverPreview')">
-                                            <img id="coverPreview" src="{{ product.cover_image }}" alt="Cover Image" style="max-width: 100px; margin-top: 10px;">
+                                            <img id="coverPreview" src="{{ product.coverImage }}" alt="Cover Image" style="max-width: 100px; margin-top: 10px;">
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Additional Images (URLs)</label>
