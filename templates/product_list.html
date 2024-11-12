@@ -1,0 +1,26 @@
+{% if products %}
+    <div class="row">
+        {% for product in products %}
+            <div class="col-lg-4 col-md-6 mb-4 product-item">
+                <div class="card h-100">
+                    <img src="{{ product.coverImage }}" class="card-img-top" alt="{{ product.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text"><strong>價格：</strong> ${{ product.price }}
+                            {% if product.salePrice and product.salePrice < product.price %}
+                                <span class="text-danger">促銷價：${{ product.salePrice }}</span>
+                            {% endif %}
+                        </p>
+                        <p class="card-text"><strong>類別：</strong> {{ product.category }}</p>
+                        <form method="POST" action="{{ url_for('add_to_cart', product_uid=product.uid) }}">
+                            <button type="submit" class="btn btn-primary">加入購物車</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>找不到產品。</p>
+{% endif %}

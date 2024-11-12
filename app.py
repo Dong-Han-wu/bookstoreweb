@@ -47,12 +47,38 @@ def index():
 
     return render_template('index.html', user_count=user_count, order_count=order_count, product_count=product_count, is_logged_in=is_logged_in)
 
-
-# 自定义产品页面
+    # app.py
 @app.route('/products_custom', methods=['GET'])
 def products_custom():
-    products = load_data_from_json('products.json')
-    return render_template('products_custom.html', products=products)
+        page = request.args.get('page', 1, type=int)
+        per_page = 30
+        search_query = request.args.get('search', '').lower()
+
+        try:
+            products = load_data_from_json('products.json')
+        except Exception as e:
+            return f"Error loading products: {e}", 500
+
+        # 篩選產品並檢查欄位存在性
+        if search_query:
+            products = [
+                product for product in products
+                if ('name' in product and search_query in product['name'].lower()) or
+                   ('description' in product and search_query in product['description'].lower())
+            ]
+
+        total_pages = (len(products) + per_page - 1) // per_page
+        paginated_products = products[(page - 1) * per_page: page * per_page]
+
+        return render_template(
+            'products_custom.html',
+            products=paginated_products,
+            page=page,
+            total_pages=total_pages,
+            search_query=search_query
+        )
+
+
 # 购物车功能
 @app.route('/cart')
 def cart():
