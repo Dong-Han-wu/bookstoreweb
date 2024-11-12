@@ -16,6 +16,10 @@ run = ["python3", "app.py"]  # 確保這裡的路徑是正確的
 deploymentTarget = "cloudrun"  # 部署目標為 Cloud Run
 
 [[ports]]
-localPort = 5000  # 本地端口
-externalPort = 5000  # 外部端口
-exposeLocalhost = true  # 允許訪問 localhost
+localPort = 5000
+externalPort = 5000
+exposeLocalhost = true
+
+[[ports]]
+localPort = 10000
+externalPort = 80
