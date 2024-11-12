@@ -228,7 +228,7 @@ def register():
                 'email': email,
                 'password': hashed_password,
                 'display_name': display_name,
-                'created_time': datetime.datetime.now().isoformat(),
+                'created_time': datetime.datetime.now(tz=datetime.timezone(datetime.timedelta(hours=8))).isoformat(),
             }
 
             users.append(user_data)
