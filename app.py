@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for, flash, session ,send_file, jsonify
+from functools import wraps
 import bcrypt
 import pytz
 from datetime import datetime, timezone, timedelta
@@ -286,7 +287,7 @@ def login():
             if user and bcrypt.checkpw(password.encode('utf-8'), user['password'].encode('utf-8')):
                 session['email'] = email
                 flash('Login successful!', 'success')
-                return redirect(url_for('orders_history'))
+                return redirect(url_for('products_custom'))
             else:
                 flash('Invalid credentials. Please try again.', 'danger')
 
@@ -586,6 +587,28 @@ def delete_order(order_number):
     else:
         flash('Order not found!', 'danger')
         return redirect(url_for('manage_orders'))  # Redirect if order is not found
+
+
+@app.route('/user_setting', methods=['GET', 'POST'])
+def user_setting():
+    users = load_data_from_json('users.json')
+
+    if request.method == 'POST':
+        # 获取要更新的用户
+        email = request.form['email']
+        new_role = request.form['role']
+
+        # 查找用户并更新其角色
+        for user in users:
+            if user['email'] == email:
+                user['role'] = new_role
+                break
+
+        # 保存更新后的用户数据
+        save_data_to_json('users.json', users)
+        flash(f"User {email}'s role has been updated to {new_role}.", 'success')
+
+    return render_template('user_setting.html', users=users)
 
 
 

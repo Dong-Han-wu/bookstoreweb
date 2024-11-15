@@ -151,7 +151,12 @@
                                                 {% for order in orders %}
                                                     <tr>
                                                         <td>{{ order['shipping']['email'] }}</td>
-                                                        <td>{{ order['product_details'] }}</td>
+                                                        <td>
+                                                            {% for product in order['products'] %}
+                                                                {{ product['name'] }}<br>
+                                                            {% endfor %}
+                                                        </td>
+
                                                         <td>
                                                             {% for product in order['products'] %}
                                                                 {{ product['quantity'] }}<br>

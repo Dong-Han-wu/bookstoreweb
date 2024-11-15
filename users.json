@@ -3,20 +3,23 @@
         "email": "ftttbokman2@gmail.com",
         "password": "scrypt:32768:8:1$N3lXIxpFkCP0geOl$fb0e5c57bf9b7efe74476aa0043bd324e7c2df95f8f1bbd32c77939559d4bec9db4fa9bdc24fb3b6a8fa7bd7e400e1f9d4a7a84fb530e7014c08bdd0ba22e15e",
         "display_name": "23S011",
-        "created_time": "2024-11-11T14:20:25.136656"
+        "created_time": "2024-11-11T14:20:25.136656",
+        "role": "admin"
     },
     {
         "uid": "9b8a7768-6228-4d67-9e10-7a224baf66ad",
         "email": "samps984508@gmail.com",
         "password": "$2b$12$fwIM6w/hJxzX/.9UMJoUtutz8Qar2jOodlZXlaXqZdh/SGTmm9O4.",
         "display_name": "23S011",
-        "created_time": "2024-11-12T01:33:55.425109"
+        "created_time": "2024-11-12T01:33:55.425109",
+        "role": "user"
     },
     {
         "uid": "d479b3e6-d09a-407b-a7c3-b1866d2c4ad8",
         "email": "samps984521@gmail.com",
         "password": "$2b$12$sTMN0To1aomT5JGSF.ejF.y2tGWc6ryl3iyq.xRC.cJ1XPhIBLkNK",
         "display_name": "samps",
-        "created_time": "2024-11-12T16:54:00.132415+08:00"
+        "created_time": "2024-11-12T16:54:00.132415+08:00",
+        "role": "user"
     }
 ]
