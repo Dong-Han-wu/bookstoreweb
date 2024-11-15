@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, flash, session ,send_file
+from flask import Flask, request, render_template, redirect, url_for, flash, session ,send_file, jsonify
 import bcrypt
 import pytz
 from datetime import datetime, timezone, timedelta
@@ -85,65 +85,55 @@ def products_custom():
 # 购物车功能
 @app.route('/cart')
 def cart():
-    cart = session.get('cart', [])
-    total_price = 0
+        cart = session.get('cart', [])
+        total_price = 0
 
-    # Calculate total price
-    for item in cart:
-        # Use salePrice if it's available and not 0, otherwise use price
-        if item.get('salePrice', 0) > 0:
-            item_price = item['salePrice']
-        else:
-            item_price = item.get('price', 0)
+        # 計算總價格
+        for item in cart:
+            item_price = item['salePrice'] if item['salePrice'] > 0 else item['price']
+            total_price += item['quantity'] * item_price
 
-        # If both salePrice and price are 0, treat the item as having no valid price
-        if item_price == 0:
-            continue  # Skip this item or handle it in a way that suits your business logic
-
-        total_price += item['quantity'] * item_price
-
-    return render_template('cart.html', cart_products=cart, total_price=total_price)
+        return render_template('cart.html', cart_products=cart, total_price=total_price)
 
 @app.route('/add_to_cart/<string:product_uid>', methods=['POST'])
 def add_to_cart(product_uid):
-        # 加載產品資料
-        products = load_data_from_json('products.json')
+                # 加載產品資料
+                products = load_data_from_json('products.json')
 
-        # 查找產品，並確保產品資料中包含 'uid' 鍵
-        product = next((p for p in products if p.get('uid') == product_uid), None)
+                # 查找產品，並確保產品資料中包含 'uid' 鍵
+                product = next((p for p in products if p.get('uid') == product_uid), None)
 
-        if product is None:
-            flash('Product not found!', 'danger')
-            return redirect(url_for('products_custom'))
+                if product is None:
+                    return jsonify({'success': False, 'message': 'Product not found!'}), 404
 
-        # 確認產品包含必要的鍵，並防止 KeyError
-        name = product.get('name', 'Unnamed Product')
-        price = product.get('price', 0)
-        salePrice = product.get('salePrice', price)  # 如果 salePrice 不存在則預設為 price
+                # 確認產品包含必要的鍵，並防止 KeyError
+                name = product.get('name', 'Unnamed Product')
+                price = product.get('price', 0)
+                salePrice = product.get('salePrice', price)  # 如果 salePrice 不存在則預設為 price
 
-        # 從 session 中獲取或初始化購物車
-        cart = session.get('cart', [])
+                # 從 session 中獲取或初始化購物車
+                cart = session.get('cart', [])
 
-        # 檢查產品是否已在購物車中
-        for item in cart:
-            if item.get('uid') == product_uid:
-                item['quantity'] += 1
-                break
-        else:
-            # 如果產品不在購物車中，則添加新項目
-            cart.append({
-                'uid': product_uid,
-                'name': name,
-                'salePrice': salePrice,
-                'price': price,
-                'quantity': 1,
-            })
+                # 檢查產品是否已在購物車中
+                for item in cart:
+                    if item.get('uid') == product_uid:
+                        item['quantity'] += 1
+                        break
+                else:
+                    # 如果產品不在購物車中，則添加新項目
+                    cart.append({
+                        'uid': product_uid,
+                        'name': name,
+                        'salePrice': salePrice,
+                        'price': price,
+                        'quantity': 1,
+                    })
 
-        # 更新 session 中的購物車
-        session['cart'] = cart
+                # 更新 session 中的購物車
+                session['cart'] = cart
 
-        flash(f'Added {name} to cart!', 'success')
-        return redirect(url_for('cart'))
+                # 跳轉到購物車頁面
+                return redirect(url_for('cart'))
 
 
 
