@@ -289,5 +289,36 @@
             "zipcode": "不需要",
             "country": "台灣"
         }
+    },
+    {
+        "orderNumber": "b650d0e6-a7df-4762-b63f-831588fb7f28",
+        "products": [
+            {
+                "name": "兒童教材(05)小明燈",
+                "price": 75,
+                "quantity": 1,
+                "salePrice": 155,
+                "uid": "2979b6d3-ad4d-47f6-82d9-faf1bfe59d6f"
+            },
+            {
+                "name": "Conclusion of the NT,The #323-345",
+                "price": 475,
+                "quantity": 1,
+                "salePrice": 475,
+                "uid": "a6cbc76c-ffc5-4780-af7d-96f9e6630e2e"
+            }
+        ],
+        "totalPrice": 630,
+        "status": "Pending",
+        "owner": "吳東東",
+        "timeCreated": "2024-11-14T09:13:26.248006",
+        "shipping": {
+            "fullName": "吳東東",
+            "email": "samps984508@gmail.com",
+            "address": "訓練中心",
+            "city": "台北市",
+            "zipcode": "不需要",
+            "country": "台灣"
+        }
     }
 ]

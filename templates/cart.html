@@ -61,7 +61,7 @@
                         {% for product in cart_products %}
                         <tr>
                             <td>
-                                <img src="{{ product.coverImage if product.coverImage else url_for('static', filename='images/default_image.jpg') }}" alt="{{ product.name }}" class="img-fluid" style="max-width: 60px;">
+                                
                                 <span>{{ product.name }}</span>
                             </td>
                             <td>{{ product.description }}</td>

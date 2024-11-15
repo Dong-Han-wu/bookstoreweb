@@ -35,6 +35,7 @@ def save_data_to_json(filename, data):
     except Exception as e:
         print(f"Error saving {filename}: {e}")
 
+
 # 首页
 @app.route('/')
 def index():
@@ -59,7 +60,7 @@ def products_custom():
         except Exception as e:
             return f"Error loading products: {e}", 500
 
-        # 篩選產品並檢查欄位存在性
+        # 篩選產品（根據搜尋字串）
         if search_query:
             products = [
                 product for product in products
@@ -67,6 +68,7 @@ def products_custom():
                    ('description' in product and search_query in product['description'].lower())
             ]
 
+        # 計算總頁數並分頁顯示
         total_pages = (len(products) + per_page - 1) // per_page
         paginated_products = products[(page - 1) * per_page: page * per_page]
 
@@ -77,6 +79,7 @@ def products_custom():
             total_pages=total_pages,
             search_query=search_query
         )
+
 
 
 # 购物车功能
@@ -101,43 +104,48 @@ def cart():
 
     return render_template('cart.html', cart_products=cart, total_price=total_price)
 
-
 @app.route('/add_to_cart/<string:product_uid>', methods=['POST'])
 def add_to_cart(product_uid):
-        # 查找产品
+        # 加載產品資料
         products = load_data_from_json('products.json')
-        product = next((p for p in products if p['uid'] == product_uid), None)
+
+        # 查找產品，並確保產品資料中包含 'uid' 鍵
+        product = next((p for p in products if p.get('uid') == product_uid), None)
 
         if product is None:
             flash('Product not found!', 'danger')
-            return redirect(url_for('index'))
+            return redirect(url_for('products_custom'))
 
-        # 从购物车中获取现有的商品
+        # 確認產品包含必要的鍵，並防止 KeyError
+        name = product.get('name', 'Unnamed Product')
+        price = product.get('price', 0)
+        salePrice = product.get('salePrice', price)  # 如果 salePrice 不存在則預設為 price
+
+        # 從 session 中獲取或初始化購物車
         cart = session.get('cart', [])
 
-        # 如果商品没有价格，则给它一个默认的价格
-        price = product.get('price', 0)  # If no price, default to 0
-        salePrice = product.get('salePrice', 0)  # If no salePrice, default to 0
-
-        # 查看商品是否已在购物车中
+        # 檢查產品是否已在購物車中
         for item in cart:
-            if item['uid'] == product_uid:
-                item['quantity'] += 1  # 增加数量
+            if item.get('uid') == product_uid:
+                item['quantity'] += 1
                 break
         else:
+            # 如果產品不在購物車中，則添加新項目
             cart.append({
-                'uid': product['uid'],
-                'name': product['name'],
+                'uid': product_uid,
+                'name': name,
                 'salePrice': salePrice,
                 'price': price,
                 'quantity': 1,
             })
 
-        # 将购物车保存回session
+        # 更新 session 中的購物車
         session['cart'] = cart
 
-        flash(f'Added {product["name"]} to cart!', 'success')
+        flash(f'Added {name} to cart!', 'success')
         return redirect(url_for('cart'))
+
+
 
 @app.route('/remove_from_cart/<string:product_uid>', methods=['POST'])
 def remove_from_cart(product_uid):
@@ -271,7 +279,7 @@ def register():
 
             # 请求为 GET 时，返回注册页面
             return render_template('register.html')
-    
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
         if request.method == 'POST':
@@ -293,7 +301,7 @@ def login():
                 flash('Invalid credentials. Please try again.', 'danger')
 
         return render_template('login.html')
-    
+
 @app.route('/logout')
 def logout():
     session.pop('email', None)  # Remove the email from the session to log out

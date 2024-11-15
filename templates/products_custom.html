@@ -5,10 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>產品</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* 固定圖片的寬度和高度 */
+        .product-image {
+            width: 200px;  /* 設定寬度 */
+            height: 200px; /* 設定高度 */
+            object-fit: cover; /* 確保圖片按比例顯示，並且不會變形 */
+        }
+
+        /* 調整分頁按鈕顯示為多行 */
+        .pagination {
+            display: flex;
+            flex-wrap: wrap;  /* 讓分頁按鈕自動換行 */
+            justify-content: flex-start; /* 將分頁按鈕左對齊 */
+        }
+
+        .pagination .page-item {
+            margin: 2px;  /* 添加間距讓按鈕不會太擠 */
+        }
+    </style>
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="mainNavbar">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -22,7 +41,7 @@
                     <a class="nav-link" href="{{ url_for('cart') }}">購物車</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('orders_history')}}">訂單</a>
+                    <a class="nav-link" href="{{ url_for('orders_history') }}">訂單</a>
                 </li>
             </ul>
         </div>
@@ -35,7 +54,10 @@
         <!-- 搜尋欄 -->
         <div class="row mb-4">
             <div class="col-md-6">
-                <input type="text" class="form-control" id="searchInput" placeholder="搜尋產品..." oninput="searchProducts()" value="{{ search_query }}">
+                <input type="text" class="form-control" id="mainSearchInput" placeholder="搜尋產品..." value="{{ search_query }}">
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary" onclick="searchProducts()">搜尋</button>
             </div>
         </div>
 
@@ -72,19 +94,27 @@
 
     <!-- Custom JS for AJAX Search and Pagination -->
     <script>
+        // 搜尋功能：更新 URL 並重新加載頁面
         function searchProducts() {
-            fetchPage(1);  // 搜尋時從第 1 頁開始
+            const searchInput = document.getElementById('mainSearchInput');
+            if (searchInput) {
+                const query = searchInput.value;
+
+                // 在 URL 中添加搜尋參數並重新載入頁面
+                window.location.href = `/products_custom?search=${encodeURIComponent(query)}&page=1`;
+            } else {
+                console.error('Search input not found!');
+            }
         }
 
+        // 分頁功能：重新加載當前頁面
         function fetchPage(page) {
-            const query = document.getElementById('searchInput').value;
-            fetch(`/products_custom?page=${page}&search=${encodeURIComponent(query)}`)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('productList').innerHTML = html;
-                })
-                .catch(error => console.error('Error:', error));
+            const query = document.getElementById('mainSearchInput').value;
+
+            // 使用 window.location.href 更新頁面
+            window.location.href = `/products_custom?page=${page}&search=${encodeURIComponent(query)}`;
         }
     </script>
+
 </body>
 </html>
