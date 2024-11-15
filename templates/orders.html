@@ -8,41 +8,32 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
     <style>
-        .table-responsive {
-            margin-top: 20px;
+        .table-responsive { margin-top: 20px; }
+        .card { box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+        .card-header h5 { margin-bottom: 0; }
+        .btn-primary, .btn-danger { margin: 0 5px; }
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .nav-tabs .nav-link.active {
+            border-color: #007bff #007bff #fff;
         }
     </style>
 </head>
 
 <body>
     <div class="wrapper">
-        <!-- Sidebar (AdminKit style) -->
         <nav id="sidebar" class="sidebar js-sidebar">
             <div class="sidebar-content js-simplebar">
                 <a class="sidebar-brand" href="/">
                     <span class="align-middle">Order System</span>
                 </a>
                 <ul class="sidebar-nav">
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="/">
-                            <i class="align-middle" data-feather="home"></i> <span class="align-middle">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="/products">
-                            <i class="align-middle" data-feather="box"></i> <span class="align-middle">Manage Products</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="/users">
-                            <i class="align-middle" data-feather="user"></i> <span class="align-middle">Manage Users</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item active">
-                        <a class="sidebar-link" href="/orders">
-                            <i class="align-middle" data-feather="shopping-cart"></i> <span class="align-middle">Manage Orders</span>
-                        </a>
-                    </li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="/"><i data-feather="home"></i> Dashboard</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="/products"><i data-feather="box"></i> Manage Products</a></li>
+                    <li class="sidebar-item"><a class="sidebar-link" href="/users"><i data-feather="user"></i> Manage Users</a></li>
+                    <li class="sidebar-item active"><a class="sidebar-link" href="/orders"><i data-feather="shopping-cart"></i> Manage Orders</a></li>
                 </ul>
             </div>
         </nav>
@@ -51,12 +42,23 @@
         <div class="main">
             <main class="content">
                 <div class="container-fluid p-0">
-                    <h1 class="h3 mb-3">Manage Orders</h1>
+                    <h1 class="h3 mb-3">Order Management</h1>
 
-                    <!-- Add Order Form -->
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <div class="card">
+                    <!-- Tab Navigation -->
+                    <ul class="nav nav-tabs" id="orderTabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="add-order-tab" data-bs-toggle="tab" href="#add-order" role="tab" aria-controls="add-order" aria-selected="true">Add New Order</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="manage-orders-tab" data-bs-toggle="tab" href="#manage-orders" role="tab" aria-controls="manage-orders" aria-selected="false">Manage Orders</a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content" id="orderTabsContent">
+                        <!-- Add New Order Tab -->
+                        <div class="tab-pane fade show active" id="add-order" role="tabpanel" aria-labelledby="add-order-tab">
+                            <div class="card mt-3">
                                 <div class="card-header">
                                     <h5 class="card-title">Add New Order</h5>
                                 </div>
@@ -82,87 +84,66 @@
                                             <label class="form-label">Owner</label>
                                             <input type="text" class="form-control" name="owner">
                                         </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Latitude</label>
-                                            <input type="number" class="form-control" name="lat" step="any">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Longitude</label>
-                                            <input type="number" class="form-control" name="lng" step="any">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Address Name</label>
-                                            <input type="text" class="form-control" name="address_name">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Street Address</label>
-                                            <input type="text" class="form-control" name="streetAddress">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">City</label>
-                                            <input type="text" class="form-control" name="city">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">State</label>
-                                            <input type="text" class="form-control" name="state">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Postal Code</label>
-                                            <input type="text" class="form-control" name="postalCode">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Add Order</button>
+                                        <button type="submit" class="btn btn-primary w-100">Add Order</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Orders Table -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title">Orders List</h5>
-                            <a href="{{ url_for('download_orders_xlsx') }}" class="btn btn-primary">Download Orders as xlsx</a>
-                            <a href="{{ url_for('download_orders_csv') }}" class="btn btn-primary">Download orders as csv</a>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="ordersTable" class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Email</th>
-                                            <th>Product Names</th>
-                                            <th>Quantity</th>
-                                            <th>Total Price</th>
-                                            <th>Status</th>
-                                            <th>Order Time</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for order in orders %}
-                                            <tr>
-                                                <td>{{ order['shipping']['email'] }}</td>
-                                                <td>{{ order['product_details'] }}</td>
-                                                <td>
-                                                    {% for product in order['products'] %}
-                                                        {{ product['quantity'] }}<br>
-                                                    {% endfor %}
-                                                </td>
-                                                <td>{{ order['totalPrice'] }}</td>
-                                                <td>{{ order['status'] }}</td>
-                                                <td>{{ order['formattedTimeCreated'] }}</td>
-                                                <td>
-                                                    <a href="/orders/edit/{{ order['orderNumber'] }}" class="btn btn-sm btn-primary">Edit</a>
-                                                    <a href="/orders/delete/{{ order['orderNumber'] }}" class="btn btn-sm btn-danger">Delete</a>
-                                                </td>
-                                            </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
+                        <!-- Manage Orders Tab -->
+                        <div class="tab-pane fade" id="manage-orders" role="tabpanel" aria-labelledby="manage-orders-tab">
+                            <div class="card mt-3">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="card-title">Orders List</h5>
+                                    <div>
+                                        <a href="{{ url_for('download_orders_xlsx') }}" class="btn btn-primary">Download XLSX</a>
+                                        <a href="{{ url_for('download_orders_csv') }}" class="btn btn-primary">Download CSV</a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="ordersTable" class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Email</th>
+                                                    <th>Product Names</th>
+                                                    <th>Quantity</th>
+                                                    <th>Total Price</th>
+                                                    <th>Status</th>
+                                                    <th>Order Time</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for order in orders %}
+                                                    <tr>
+                                                        <td>{{ order['shipping']['email'] }}</td>
+                                                        <td>{{ order['product_details'] }}</td>
+                                                        <td>
+                                                            {% for product in order['products'] %}
+                                                                {{ product['quantity'] }}<br>
+                                                            {% endfor %}
+                                                        </td>
+                                                        <td>{{ order['totalPrice'] }}</td>
+                                                        <td>{{ order['status'] }}</td>
+                                                        <td>{{ order['formattedTimeCreated'] }}</td>
+                                                        <td>
+                                                            <a href="/orders/edit/{{ order['orderNumber'] }}" class="btn btn-sm btn-primary">Edit</a>
+                                                            <a href="/orders/delete/{{ order['orderNumber'] }}" class="btn btn-sm btn-danger">Delete</a>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
+                </div>
+            </main>
+        </div>
+    </div>
 
     <!-- Include Feather Icons, AdminKit, and DataTables JS -->
     <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
@@ -171,12 +152,12 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
     <script>
-        feather.replace(); // Initialize feather icons
+        feather.replace();
 
         $(document).ready(function() {
             $('#ordersTable').DataTable({
-                "pageLength": 10, // Show 10 entries per page
-                "lengthMenu": [10, 25, 50, 100] // Options for page length dropdown
+                "pageLength": 10,
+                "lengthMenu": [10, 25, 50, 100]
             });
         });
     </script>

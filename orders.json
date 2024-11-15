@@ -320,5 +320,29 @@
             "zipcode": "不需要",
             "country": "台灣"
         }
+    },
+    {
+        "orderNumber": "e659d175-a2d0-43d9-a1ef-252e89f23fca",
+        "products": [
+            {
+                "name": "兒童教材(05)小明燈",
+                "price": 75,
+                "quantity": 1,
+                "salePrice": 155,
+                "uid": "2979b6d3-ad4d-47f6-82d9-faf1bfe59d6f"
+            }
+        ],
+        "totalPrice": 155,
+        "status": "Pending",
+        "owner": "吳東東",
+        "timeCreated": "2024-11-15T03:49:28.809969",
+        "shipping": {
+            "fullName": "吳東東",
+            "email": "samps984508@gmail.com",
+            "address": "訓練中心",
+            "city": "台北市",
+            "zipcode": "不需要",
+            "country": "台灣"
+        }
     }
 ]

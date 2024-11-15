@@ -8,9 +8,26 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://cdn.jsdelivr.net/npm/feather-icons"></script>
     <style>
-        /* Adjust styling if needed */
-        .table-responsive {
+        /* Tab styling */
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #ddd;
             margin-top: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .tab.active {
+            border-bottom: 2px solid #007bff;
+            font-weight: bold;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+        .tab-content.active {
+            display: block;
         }
     </style>
 </head>
@@ -54,94 +71,99 @@
                 <div class="container-fluid p-0">
                     <h1 class="h3 mb-3">Manage Users</h1>
 
-                    <!-- Add User Form -->
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-title">Add New User</h5>
-                                </div>
-                                <div class="card-body">
-                                    <form action="/users" method="POST">
-                                        <div class="mb-3">
-                                            <label class="form-label">Email</label>
-                                            <input type="email" class="form-control" name="email" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Display Name</label>
-                                            <input type="text" class="form-control" name="display_name" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Photo URL</label>
-                                            <input type="text" class="form-control" name="photo_url">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Phone Number</label>
-                                            <input type="text" class="form-control" name="phone_number">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Student ID</label>
-                                            <input type="text" class="form-control" name="student_id">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">FTT Auth</label>
-                                            <input type="text" class="form-control" name="ftt_auth">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Group</label>
-                                            <input type="text" class="form-control" name="group">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Title</label>
-                                            <input type="text" class="form-control" name="title">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Add User</button>
-                                    </form>
-                                </div>
+                    <!-- Tab Navigation -->
+                    <div class="tab-container">
+                        <div class="tab active" data-tab="add-user">Add New User</div>
+                        <div class="tab" data-tab="user-list">Users List</div>
+                    </div>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content active" id="add-user">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Add New User</h5>
+                            </div>
+                            <div class="card-body">
+                                <form action="/users" method="POST">
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control" name="email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Display Name</label>
+                                        <input type="text" class="form-control" name="display_name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Photo URL</label>
+                                        <input type="text" class="form-control" name="photo_url">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Phone Number</label>
+                                        <input type="text" class="form-control" name="phone_number">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Student ID</label>
+                                        <input type="text" class="form-control" name="student_id">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">FTT Auth</label>
+                                        <input type="text" class="form-control" name="ftt_auth">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Group</label>
+                                        <input type="text" class="form-control" name="group">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Title</label>
+                                        <input type="text" class="form-control" name="title">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Add User</button>
+                                </form>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Users Table -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="card-title">Users List</h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table id="usersTable" class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Email</th>
-                                            <th>Display Name</th>
-                                            <th>Photo URL</th>
-                                            <th>Phone Number</th>
-                                            <th>Student ID</th>
-                                            <th>FTT Auth</th>
-                                            <th>Group</th>
-                                            <th>Title</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for user in users %}
+                    <div class="tab-content" id="user-list">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Users List</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="usersTable" class="table table-bordered table-hover">
+                                        <thead>
                                             <tr>
-                                                <td>{{ user.email }}</td>
-                                                <td>{{ user.display_name }}</td>
-                                                <td>{{ user.photo_url }}</td>
-                                                <td>{{ user.phone_number }}</td>
-                                                <td>{{ user.student_id }}</td>
-                                                <td>{{ user.ftt_auth }}</td>
-                                                <td>{{ user.group }}</td>
-                                                <td>{{ user.title }}</td>
-                                                <td>
-                                                    <a href="/users/edit/{{ user.id }}" class="btn btn-sm btn-primary">Edit</a>
-                                                    <a href="/users/delete/{{ user.id }}" class="btn btn-sm btn-danger">Delete</a>
-                                                </td>
+                                                <th>Email</th>
+                                                <th>Display Name</th>
+                                                <th>Photo URL</th>
+                                                <th>Phone Number</th>
+                                                <th>Student ID</th>
+                                                <th>FTT Auth</th>
+                                                <th>Group</th>
+                                                <th>Title</th>
+                                                <th>Actions</th>
                                             </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            {% for user in users %}
+                                                <tr>
+                                                    <td>{{ user.email }}</td>
+                                                    <td>{{ user.display_name }}</td>
+                                                    <td>{{ user.photo_url }}</td>
+                                                    <td>{{ user.phone_number }}</td>
+                                                    <td>{{ user.student_id }}</td>
+                                                    <td>{{ user.ftt_auth }}</td>
+                                                    <td>{{ user.group }}</td>
+                                                    <td>{{ user.title }}</td>
+                                                    <td>
+                                                        <a href="/users/edit/{{ user.id }}" class="btn btn-sm btn-primary">Edit</a>
+                                                        <a href="/users/delete/{{ user.id }}" class="btn btn-sm btn-danger">Delete</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -158,11 +180,23 @@
 
     <script>
         feather.replace(); // Initialize feather icons
-        
+
+        // Tab functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                this.classList.add('active');
+                document.getElementById(this.getAttribute('data-tab')).classList.add('active');
+            });
+        });
+
+        // Initialize DataTables for Users List
         $(document).ready(function() {
             $('#usersTable').DataTable({
-                "pageLength": 10, // Show 10 entries per page
-                "lengthMenu": [10, 25, 50, 100] // Options for page length dropdown
+                "pageLength": 10,
+                "lengthMenu": [10, 25, 50, 100]
             });
         });
     </script>
