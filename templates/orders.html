@@ -40,7 +40,7 @@
 
         <!-- Main content -->
         <div class="main">
-            <!-- 導航欄 -->
+            <!-- Navbar -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,23 +50,23 @@
                         <ul class="navbar-nav me-auto">
                             {% if is_logged_in %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url_for('products_custom') }}">產品</a>
+                                <a class="nav-link" href="{{ url_for('products_custom') }}">Products</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url_for('cart') }}">購物車</a>
+                                <a class="nav-link" href="{{ url_for('cart') }}">Shopping Cart</a>
                             </li>
                             {% endif %}
                         </ul>
                         {% if not is_logged_in %}
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link login-btn" href="{{ url_for('login') }}">登入</a>
+                                <a class="nav-link login-btn" href="{{ url_for('login') }}">Login</a>
                             </li>
                         </ul>
                         {% else %}
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link logout-btn" href="{{ url_for('logout') }}">登出</a>
+                                <a class="nav-link logout-btn" href="{{ url_for('logout') }}">Logout</a>
                             </li>
                         </ul>
                         {% endif %}
@@ -156,7 +156,6 @@
                                                                 {{ product['name'] }}<br>
                                                             {% endfor %}
                                                         </td>
-
                                                         <td>
                                                             {% for product in order['products'] %}
                                                                 {{ product['quantity'] }}<br>

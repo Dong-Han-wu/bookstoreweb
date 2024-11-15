@@ -110,7 +110,10 @@ def add_to_cart(product_uid):
                 # 確認產品包含必要的鍵，並防止 KeyError
                 name = product.get('name', 'Unnamed Product')
                 price = product.get('price', 0)
-                salePrice = product.get('salePrice', price)  # 如果 salePrice 不存在則預設為 price
+                  # 如果 salePrice 不存在則預設為 price
+                salePrice = product.get('salePrice', price)
+                if salePrice <= 0:  # 檢查價格是否正確
+                    salePrice = price
 
                 # 從 session 中獲取或初始化購物車
                 cart = session.get('cart', [])
