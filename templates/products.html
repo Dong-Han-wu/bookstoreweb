@@ -67,6 +67,40 @@
 
         <!-- Main content -->
         <div class="main">
+            <!-- 導航欄 -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto">
+                            {% if is_logged_in %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('products_custom') }}">產品</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('cart') }}">購物車</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                        {% if not is_logged_in %}
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link login-btn" href="{{ url_for('login') }}">登入</a>
+                            </li>
+                        </ul>
+                        {% else %}
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link logout-btn" href="{{ url_for('logout') }}">登出</a>
+                            </li>
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+            
             <main class="content">
                 <div class="container-fluid p-0">
                     <h1 class="h3 mb-3">Manage Products</h1>
