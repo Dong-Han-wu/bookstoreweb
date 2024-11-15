@@ -78,7 +78,12 @@
                     <a class="nav-link" href="{{ url_for('cart') }}">購物車</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('orders_history') }}">訂單</a>
+                    <a class="nav-link" href="{{ url_for('orders_history') }}">歷史訂單</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link logout-btn" href="{{ url_for('logout') }}">登出</a>
                 </li>
             </ul>
         </div>
@@ -90,9 +95,10 @@
 
         <!-- 搜尋欄 -->
         <div class="row mb-4">
-            <div class="col-md-6">
+            <div class="col-md-6 mb-2"> <!-- 在此加上 mb-2 類 -->
                 <input type="text" class="form-control" id="mainSearchInput" placeholder="搜尋產品..." value="{{ search_query }}">
             </div>
+
             <div class="col-md-2">
                 <button class="btn btn-primary" onclick="searchProducts()">搜尋</button>
             </div>
