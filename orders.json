@@ -294,5 +294,29 @@
             "zipcode": "不需要",
             "country": "台灣"
         }
+    },
+    {
+        "orderNumber": "8dc8b7e3-3050-4605-a517-5e910a4027a0",
+        "products": [
+            {
+                "name": "E9019-4A I've Found The One of Peerless Worth",
+                "price": 250,
+                "quantity": 1,
+                "salePrice": 225,
+                "uid": "65767ad1-7564-4b44-a7d9-67b8d83295b5"
+            }
+        ],
+        "totalPrice": 225,
+        "status": "Pending",
+        "owner": "吳東東",
+        "timeCreated": "2024-11-15T13:12:14.962983",
+        "shipping": {
+            "fullName": "吳東東",
+            "email": "samps984508@gmail.com",
+            "address": "訓練中心",
+            "city": "台北市",
+            "zipcode": "不需要",
+            "country": "台灣"
+        }
     }
 ]

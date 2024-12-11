@@ -1,4 +1,4 @@
-entrypoint = "app.py"  # 設置入口文件
+itentrypoint = "app.py"  # 設置入口文件
 modules = ["python-3.11"]  # 指定 Python 版本
 
 [nix]
